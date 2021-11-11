@@ -22,14 +22,13 @@ function Ingredients() {
         });
 
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
         setIngredients((prevState) => {
           return [
             ...prevState,
             {
               ...ingredient,
-              id: response.name,
+              id: data.name,
             },
           ];
         });
