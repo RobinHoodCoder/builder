@@ -4,13 +4,16 @@ import IngredientForm from './IngredientForm';
 import Search from './Search';
 import IngredientList from './IngredientList';
 import { deleteItem } from '../../api/api';
+import './Ingredients.css';
 const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json';
 
 function Ingredients() {
   const [ingredients, setIngredients] = useState([]);
   const [error, setError] = useState(undefined);
+  const [loading, setLoading] = useState(undefined);
 
   const addIngredientHandler = async (ingredient) => {
+    setLoading(true);
     try {
       const response = await fetch(url,
         {
@@ -22,7 +25,10 @@ function Ingredients() {
         });
 
       const data = await response.json();
+      console.log(response);
+
       if (response.ok) {
+        setLoading(false);
         setIngredients((prevState) => {
           return [
             ...prevState,
@@ -56,20 +62,21 @@ function Ingredients() {
 
   return (
     <div className="App">
-      <IngredientForm onAddIngredient={addIngredientHandler}/>
-      {ingredients?.length && (
-        <IngredientList
-          ingredients={ingredients}
-          onRemoveItem={removeIngredientHandler}
-        />
-      )
-      }
+      <IngredientForm
+        loading={loading}
+        onAddIngredient={addIngredientHandler}
+      />
 
       <section>
         <Search onLoadIngredients={filteredIngredientsHandler}/>
         {error && <p>{error.message}</p>}
         {/* Need to add list here! */}
       </section>
+      <h2>Loaded Ingredients</h2>
+      <IngredientList
+        ingredients={ingredients}
+        onRemoveItem={removeIngredientHandler}
+      />
     </div>
   );
 }
