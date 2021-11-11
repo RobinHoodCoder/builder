@@ -3,6 +3,7 @@ import React, { useCallback, useState } from 'react';
 import IngredientForm from './IngredientForm';
 import Search from './Search';
 import IngredientList from './IngredientList';
+import { deleteItem } from '../../api/api';
 const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json';
 
 function Ingredients() {
@@ -22,19 +23,32 @@ function Ingredients() {
 
       const data = await response.json();
       console.log(data);
+      if (response.ok) {
+        setIngredients((prevState) => {
+          return [
+            ...prevState,
+            {
+              ...ingredient,
+              id: response.name,
+            },
+          ];
+        });
+      }
     } catch (error) {
       console.error(error);
       setError(error);
     }
-    setIngredients((prevState) => {
-      return [...prevState, { id: Math.random().toString(), ...ingredient }];
-    });
   };
 
   const removeIngredientHandler = (ingredientID) => {
-    setIngredients((prevState) => {
-      return prevState.filter(ingredient => ingredient.id !== ingredientID);
-    });
+    if (ingredientID) {
+      deleteItem(ingredientID)
+        .then(() => {
+          setIngredients((prevState) => {
+            return prevState.filter(ingredient => ingredient.id !== ingredientID);
+          });
+        });
+    }
   };
 
   const filteredIngredientsHandler = useCallback((filteredIngredients) => {
@@ -44,7 +58,13 @@ function Ingredients() {
   return (
     <div className="App">
       <IngredientForm onAddIngredient={addIngredientHandler}/>
-      <IngredientList ingredients={ingredients} onRemoveItem={removeIngredientHandler}/>
+      {ingredients?.length && (
+        <IngredientList
+          ingredients={ingredients}
+          onRemoveItem={removeIngredientHandler}
+        />
+      )
+      }
 
       <section>
         <Search onLoadIngredients={filteredIngredientsHandler}/>
