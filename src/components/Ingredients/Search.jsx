@@ -15,7 +15,7 @@ const Search = memo((props) => {
   useEffect(() => {
     setTimeout(() => {
       // If input same as 500ms ago...
-      if (enteredFilter ===  inputRef.current.value) {
+      if (enteredFilter ===  inputRef.current?.value) {
         const query = !!enteredFilter?.length ? `?orderBy="title"&equalTo="${enteredFilter}"` : '';
         fetch(url + query)
           .then(response => response.json())
