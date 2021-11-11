@@ -3,7 +3,7 @@ import React, { useEffect, useState, memo } from 'react';
 import Card from '../UI/Card';
 import './Search.css';
 
-const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/react-hooks-update-76090-default-rtdb.json';
+const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json';
 
 // eslint-disable-next-line react/display-name
 const Search = memo((props) => {
@@ -16,14 +16,21 @@ const Search = memo((props) => {
       .then(response => response.json())
       .then((data) => {
         const loadedIngredients = [];
-        Object.entries(data).forEach(([key, value]) => {
-          loadedIngredients.push({
-            id: key,
-            amount: value.amount,
-            title: value.title,
-          });
-        });
+        if (!!data) {
+          Object.entries(data)
+            .forEach(([key, value]) => {
+              loadedIngredients.push({
+                id: key,
+                amount: value.amount,
+                title: value.title,
+              });
+            });
+        }
+
         onLoadIngredients(loadedIngredients);
+      })
+      .catch((err) => {
+        return console.error(err);
       });
   }, [enteredFilter, onLoadIngredients]);
   return (

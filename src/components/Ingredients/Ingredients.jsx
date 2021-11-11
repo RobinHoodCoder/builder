@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import IngredientForm from './IngredientForm';
 import Search from './Search';
 import IngredientList from './IngredientList';
-const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/react-hooks-update-76090-default-rtdb.json';
+const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json';
 
 function Ingredients() {
   const [ingredients, setIngredients] = useState([]);
@@ -14,13 +14,18 @@ function Ingredients() {
       .then(response => response.json())
       .then((data) => {
         const loadedIngredients = [];
-        Object.entries(data).forEach(([key, value]) => {
-          loadedIngredients.push({
-            id: key,
-            amount: value.amount,
-            title: value.title,
-          });
-        });
+        console.log(data);
+        if (!!data) {
+          Object.entries(data)
+            .forEach(([key, value]) => {
+              loadedIngredients.push({
+                id: key,
+                amount: value.amount,
+                title: value.title,
+              });
+            });
+        }
+
         setIngredients(loadedIngredients);
       });
   }, []);
