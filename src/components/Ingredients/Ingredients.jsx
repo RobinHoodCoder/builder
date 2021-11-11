@@ -5,7 +5,8 @@ import Search from './Search';
 import IngredientList from './IngredientList';
 import { deleteItem } from '../../api/api';
 import './Ingredients.css';
-const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json';
+import ErrorModal from '../UI/ErrorModal';
+const url = 'https://react-hooks-update-76090-default-rtdb.eurdope-west1.firebasedatabase.app/ingredients.json';
 
 function Ingredients() {
   const [ingredients, setIngredients] = useState([]);
@@ -42,6 +43,8 @@ function Ingredients() {
     } catch (error) {
       console.error(error);
       setError(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -62,6 +65,13 @@ function Ingredients() {
 
   return (
     <div className="App">
+      {!!error?.message && (
+        <ErrorModal
+          onClose={() => setError(null)}
+        >
+          {error.message}
+        </ErrorModal>
+      )}
       <IngredientForm
         loading={loading}
         onAddIngredient={addIngredientHandler}
