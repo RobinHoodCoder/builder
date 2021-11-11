@@ -13,7 +13,7 @@ const Search = memo((props) => {
 
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       // If input same as 500ms ago...
       if (enteredFilter ===  inputRef.current?.value) {
         const query = !!enteredFilter?.length ? `?orderBy="title"&equalTo="${enteredFilter}"` : '';
@@ -37,6 +37,10 @@ const Search = memo((props) => {
           .catch((err) => {
             return console.error(err);
           });
+
+        return () => {
+          clearTimeout(timer);
+        };
       }
     }, 500);
   }, [enteredFilter, onLoadIngredients, inputRef]);
