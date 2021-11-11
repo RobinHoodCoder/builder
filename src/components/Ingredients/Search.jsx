@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { useEffect, useState, memo, useRef } from 'react';
 
 import Card from '../UI/Card';
 import './Search.css';
@@ -9,36 +9,44 @@ const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebase
 const Search = memo((props) => {
   const { onLoadIngredients } = props;
   const [enteredFilter, setEnteredFilter] = useState('');
+  const inputRef = useRef();
+
 
   useEffect(() => {
-    const query = !!enteredFilter?.length ? `?orderBy="title"&equalTo="${enteredFilter}"` : '';
-    fetch(url + query)
-      .then(response => response.json())
-      .then((data) => {
-        const loadedIngredients = [];
-        if (!!data) {
-          Object.entries(data)
-            .forEach(([key, value]) => {
-              loadedIngredients.push({
-                id: key,
-                amount: value.amount,
-                title: value.title,
-              });
-            });
-        }
+    setTimeout(() => {
+      // If input same as 500ms ago...
+      if (enteredFilter ===  inputRef.current.value) {
+        const query = !!enteredFilter?.length ? `?orderBy="title"&equalTo="${enteredFilter}"` : '';
+        fetch(url + query)
+          .then(response => response.json())
+          .then((data) => {
+            const loadedIngredients = [];
+            if (!!data) {
+              Object.entries(data)
+                .forEach(([key, value]) => {
+                  loadedIngredients.push({
+                    id: key,
+                    amount: value.amount,
+                    title: value.title,
+                  });
+                });
+            }
 
-        onLoadIngredients(loadedIngredients);
-      })
-      .catch((err) => {
-        return console.error(err);
-      });
-  }, [enteredFilter, onLoadIngredients]);
+            onLoadIngredients(loadedIngredients);
+          })
+          .catch((err) => {
+            return console.error(err);
+          });
+      }
+    }, 500);
+  }, [enteredFilter, onLoadIngredients, inputRef]);
   return (
     <section className="search">
       <Card>
         <div className="search-input">
           <label>Filter by Title</label>
           <input
+            ref={inputRef}
             type="text"
             value={enteredFilter}
             onChange={e => setEnteredFilter(e.target.value)}
