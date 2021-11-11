@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import IngredientForm from './IngredientForm';
 import Search from './Search';
@@ -8,28 +8,6 @@ const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebase
 function Ingredients() {
   const [ingredients, setIngredients] = useState([]);
   const [error, setError] = useState(undefined);
-
-  useEffect(() => {
-    fetch(url)
-      .then(response => response.json())
-      .then((data) => {
-        const loadedIngredients = [];
-        console.log(data);
-        if (!!data) {
-          Object.entries(data)
-            .forEach(([key, value]) => {
-              loadedIngredients.push({
-                id: key,
-                amount: value.amount,
-                title: value.title,
-              });
-            });
-        }
-
-        setIngredients(loadedIngredients);
-      });
-  }, []);
-
 
   const addIngredientHandler = async (ingredient) => {
     try {
