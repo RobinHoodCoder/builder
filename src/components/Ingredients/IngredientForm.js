@@ -8,6 +8,8 @@ const IngredientForm = React.memo((props) => {
   const [userInput, setUserInput] = useState('');
   const [amount, setAmount] = useState('');
 
+  console.log('Rendering ingredient form');
+
   const submitHandler = (event) => {
     event.preventDefault();
     props.onAddIngredient({ title: userInput, amount });
