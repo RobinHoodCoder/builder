@@ -3,7 +3,8 @@ import React from 'react';
 import './IngredientList.css';
 import Ingredient from './Ingredient';
 
-const IngredientList = (props) => {
+const IngredientList = React.memo((props) => {
+  console.log('Rerender of Ingredient list', new Date().getSeconds());
   return (
     <section className="ingredient-list">
       <ul>
@@ -18,6 +19,6 @@ const IngredientList = (props) => {
       </ul>
     </section>
   );
-};
+});
 
 export default IngredientList;

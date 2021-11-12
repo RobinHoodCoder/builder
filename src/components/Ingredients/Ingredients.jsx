@@ -62,9 +62,11 @@ function Ingredients() {
    * const [loading, setLoading] = useState(undefined);
    */
 
+  console.log('Rerender of Ingredients');
+
 
   const addIngredientHandler = async (ingredient) => {
-    dispatchHttp({ action: 'SEND' });
+    dispatchHttp({ type: 'SEND' });
     try {
       const response = await fetch(url,
         {
@@ -78,7 +80,7 @@ function Ingredients() {
       const data = await response.json();
 
       if (response.ok) {
-        dispatchHttp({ action: 'RESPONSE' });
+        dispatchHttp({ type: 'RESPONSE' });
         dispatch(
           {
             type: 'ADD',
@@ -91,11 +93,11 @@ function Ingredients() {
       }
     } catch (error) {
       console.error(error);
-      dispatchHttp({ action: 'ERROR', error });
+      dispatchHttp({ type: 'ERROR', error });
     }
   };
 
-  const removeIngredientHandler = (ingredientID) => {
+  const removeIngredientHandler = useCallback((ingredientID) => {
     if (ingredientID) {
       deleteItem(ingredientID)
         .then(() => {
@@ -105,7 +107,7 @@ function Ingredients() {
           });
         });
     }
-  };
+  }, []);
 
   const filteredIngredientsHandler = useCallback((filteredIngredients) => {
     dispatch({
@@ -115,7 +117,7 @@ function Ingredients() {
   }, []);
 
   const clearError = () => {
-    dispatchHttp({ action: 'CLEAR' });
+    dispatchHttp({ type: 'CLEAR' });
   };
 
   return (

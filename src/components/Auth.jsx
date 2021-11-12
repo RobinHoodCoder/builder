@@ -5,9 +5,9 @@ import './Auth.css';
 import { AuthContext } from '../context/auth-context';
 
 const Auth = (props) => {
+  console.log('Rerender of auth');
   const value = useContext(AuthContext);
   const loginHandler = () => {
-    console.log('click');
     value.login();
   };
 
