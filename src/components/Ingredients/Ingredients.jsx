@@ -11,7 +11,6 @@ const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebase
 const ingredientsReducer = (currentIngredients = [], action) => {
   switch (action.type) {
   case 'SET' :
-    console.log(action, 'SET--');
     return action.ingredients;
   case 'ADD':
     return [
@@ -45,7 +44,6 @@ function Ingredients() {
         });
 
       const data = await response.json();
-      console.log(response);
 
       if (response.ok) {
         setLoading(false);
