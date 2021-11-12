@@ -24,15 +24,47 @@ const ingredientsReducer = (currentIngredients = [], action) => {
   }
 };
 
+const httpReducer = (currHttpState, action) => {
+  switch (action.type) {
+  case 'SEND' :
+    return {
+      ...currHttpState,
+      loading: true,
+    };
+  case 'RESPONSE' :
+    return {
+      ...currHttpState,
+      loading: false,
+    };
+  case 'ERROR' :
+    return {
+      ...currHttpState,
+      loading: false,
+      error: action.error.message,
+    };
+  case 'CLEAR' :
+    return {
+      ...currHttpState,
+      loading: false,
+      error: null,
+    };
+  default:
+    throw new Error('This action type is not recognised');
+  }
+};
+
 function Ingredients() {
+  const [httpState, dispatchHttp] = useReducer(httpReducer, { loading: false, error: null });
   const [ingredients, dispatch] = useReducer(ingredientsReducer, []);
 
-  const [error, setError] = useState(undefined);
-  const [loading, setLoading] = useState(undefined);
+  /*
+   * const [error, setError] = useState(undefined);
+   * const [loading, setLoading] = useState(undefined);
+   */
 
 
   const addIngredientHandler = async (ingredient) => {
-    setLoading(true);
+    dispatchHttp({ action: 'SEND' });
     try {
       const response = await fetch(url,
         {
@@ -46,7 +78,7 @@ function Ingredients() {
       const data = await response.json();
 
       if (response.ok) {
-        setLoading(false);
+        dispatchHttp({ action: 'RESPONSE' });
         dispatch(
           {
             type: 'ADD',
@@ -59,9 +91,7 @@ function Ingredients() {
       }
     } catch (error) {
       console.error(error);
-      setError(error);
-    } finally {
-      setLoading(false);
+      dispatchHttp({ action: 'ERROR', error });
     }
   };
 
@@ -84,17 +114,21 @@ function Ingredients() {
     });
   }, []);
 
+  const clearError = () => {
+    dispatchHttp({ action: 'CLEAR' });
+  };
+
   return (
     <div className="App">
-      {!!error?.message && (
+      {!!httpState.error?.message && (
         <ErrorModal
-          onClose={() => setError(null)}
+          onClose={clearError}
         >
-          {error.message}
+          {httpState.error.message}
         </ErrorModal>
       )}
       <IngredientForm
-        loading={loading}
+        loading={httpState.loading}
         onAddIngredient={addIngredientHandler}
       />
 
