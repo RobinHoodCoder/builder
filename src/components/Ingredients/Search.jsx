@@ -32,7 +32,7 @@ const Search = memo((props) => {
                 });
             }
 
-            onLoadIngredients(loadedIngredients);
+            return onLoadIngredients(loadedIngredients);
           })
           .catch((err) => {
             return console.error(err);

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useReducer, useState } from 'react';
 
 import IngredientForm from './IngredientForm';
 import Search from './Search';
@@ -6,12 +6,31 @@ import IngredientList from './IngredientList';
 import { deleteItem } from '../../api/api';
 import './Ingredients.css';
 import ErrorModal from '../UI/ErrorModal';
-const url = 'https://react-hooks-update-76090-default-rtdb.eurdope-west1.firebasedatabase.app/ingredients.json';
+const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json';
+
+const ingredientsReducer = (currentIngredients = [], action) => {
+  switch (action.type) {
+  case 'SET' :
+    console.log(action, 'SET--');
+    return action.ingredients;
+  case 'ADD':
+    return [
+      ...currentIngredients,
+      action.ingredient,
+    ];
+  case 'DELETE' :
+    return currentIngredients.filter(ingredient => ingredient.id !== action.id);
+  default:
+    throw new Error('Should not happen');
+  }
+};
 
 function Ingredients() {
-  const [ingredients, setIngredients] = useState([]);
+  const [ingredients, dispatch] = useReducer(ingredientsReducer, []);
+
   const [error, setError] = useState(undefined);
   const [loading, setLoading] = useState(undefined);
+
 
   const addIngredientHandler = async (ingredient) => {
     setLoading(true);
@@ -30,15 +49,15 @@ function Ingredients() {
 
       if (response.ok) {
         setLoading(false);
-        setIngredients((prevState) => {
-          return [
-            ...prevState,
-            {
+        dispatch(
+          {
+            type: 'ADD',
+            ingredient: {
               ...ingredient,
               id: data.name,
             },
-          ];
-        });
+          }
+        );
       }
     } catch (error) {
       console.error(error);
@@ -52,15 +71,19 @@ function Ingredients() {
     if (ingredientID) {
       deleteItem(ingredientID)
         .then(() => {
-          setIngredients((prevState) => {
-            return prevState.filter(ingredient => ingredient.id !== ingredientID);
+          dispatch({
+            type: 'DELETE',
+            id: ingredientID,
           });
         });
     }
   };
 
   const filteredIngredientsHandler = useCallback((filteredIngredients) => {
-    return setIngredients(filteredIngredients);
+    dispatch({
+      type: 'SET',
+      ingredients: filteredIngredients,
+    });
   }, []);
 
   return (
@@ -79,14 +102,18 @@ function Ingredients() {
 
       <section>
         <Search onLoadIngredients={filteredIngredientsHandler}/>
-        {error && <p>{error.message}</p>}
         {/* Need to add list here! */}
       </section>
       <h2>Loaded Ingredients</h2>
-      <IngredientList
-        ingredients={ingredients}
-        onRemoveItem={removeIngredientHandler}
-      />
+      {
+        ingredients?.length && (
+
+          <IngredientList
+            ingredients={ingredients}
+            onRemoveItem={removeIngredientHandler}
+          />
+        )
+      }
     </div>
   );
 }
