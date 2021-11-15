@@ -17,7 +17,6 @@ const Search = memo((props) => {
 
   const inputRef = useRef();
 
-
   useEffect(() => {
     const timer = setTimeout(() => {
       // If input same as 500ms ago...
@@ -26,7 +25,8 @@ const Search = memo((props) => {
           (
             `?orderBy="title"&equalTo="${enteredFilter}"`
           )
-          : (
+          :
+          (
             ''
           );
         sendRequest({
