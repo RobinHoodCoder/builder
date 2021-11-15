@@ -11,7 +11,8 @@ import useHttp from '../../hooks/useHttp';
 const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/ingredients';
 
 
-const ingredientsReducer = (currentIngredients = [], action) => {
+const ingredientsReducer = (currentIngredients, action) => {
+  console.log(action, currentIngredients);
   switch (action.type) {
   case 'SET' :
     return action.ingredients;
@@ -32,10 +33,10 @@ function Ingredients() {
   const [ingredients, dispatch] = useReducer(ingredientsReducer, []);
 
   const {
-    sendRequest,
-    data,
     isLoading,
     error,
+    data,
+    sendRequest,
     reqExtra,
     reqIdentifier,
   } = useHttp();
@@ -44,44 +45,21 @@ function Ingredients() {
    * const [loading, setLoading] = useState(undefined);
    */
 
-  console.log('Rerender of Ingredients');
-
-  const addIngredientHandler = (ingredient) => {
-    sendRequest({
-      url: `${url}.json`,
-      method: 'POST',
-      body: ingredient,
-      identifier: 'ADD_INGREDIENT',
-    });
-  };
-
-  const removeIngredientHandler = useCallback((ingredientID) => {
-    sendRequest({
-      url: `${url}/${ingredientID}.json`,
-      method: 'DELETE',
-      reqExtra: '',
-      identifier: 'REMOVE_INGREDIENT',
-    });
-  }, []);
-
-  const filteredIngredientsHandler = useCallback((filteredIngredients) => {
-    dispatch({
-      type: 'SET',
-      ingredients: filteredIngredients,
-    });
-  }, []);
-
   useEffect(() => {
+    // When we have response data we need to set it in the state
     if (!isLoading && !error) {
       if (reqIdentifier === 'REMOVE_INGREDIENT') {
-        dispatch({ type: 'DELETE', id: reqExtra });
+        console.log(data, { data }, 'DELETE');
+        dispatch({
+          type: 'DELETE',
+          id: reqExtra,
+        });
       } else if (reqIdentifier === 'ADD_INGREDIENT') {
-        console.log(data);
+        console.log(data, { data }, 'Huu');
         dispatch({
           type: 'ADD',
           ingredient: {
-            id: data.id,
-            ...data,
+            ...data.id,
             ...reqExtra,
           },
         });
@@ -94,6 +72,35 @@ function Ingredients() {
     reqExtra,
     reqIdentifier,
   ]);
+
+  console.log('Rerender of Ingredients');
+
+  const addIngredientHandler = (ingredient) => {
+    sendRequest({
+      url: `${url}.json`,
+      method: 'POST',
+      body: ingredient,
+      reqExtra: ingredient,
+      identifier: 'ADD_INGREDIENT',
+    });
+  };
+
+  const removeIngredientHandler = useCallback((ingredientID) => {
+    sendRequest({
+      url: `${url}/${ingredientID}.json`,
+      method: 'DELETE',
+      body: null,
+      reqExtra: ingredientID,
+      identifier: 'REMOVE_INGREDIENT',
+    });
+  }, [sendRequest]);
+
+  const filteredIngredientsHandler = useCallback((filteredIngredients) => {
+    dispatch({
+      type: 'SET',
+      ingredients: filteredIngredients,
+    });
+  }, []);
 
   return (
     <div className="App">
@@ -110,7 +117,9 @@ function Ingredients() {
       />
 
       <section>
-        <Search onLoadIngredients={filteredIngredientsHandler}/>
+        <Search
+          onLoadIngredients={filteredIngredientsHandler}
+        />
         {/* Need to add list here! */}
       </section>
       <h2>Loaded Ingredients</h2>

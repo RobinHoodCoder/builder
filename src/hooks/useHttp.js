@@ -67,8 +67,10 @@ const useHttp = () => {
           type: 'RESPONSE',
 
           responseData: {
-            id: !!response?.name ? response.name : null,
-            ...response,
+            ...(response && {
+              id: !!response?.name ? response.name : null,
+              ...response,
+            }),
           },
           extra: reqExtra,
         });
