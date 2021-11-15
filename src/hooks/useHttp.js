@@ -1,12 +1,21 @@
 import { useCallback, useReducer } from 'react';
 import { deleteItem } from '../api/api';
 
+const initialState = {
+  loading: false,
+  error: null,
+  data: null,
+  extra: null,
+  identifier: null,
+};
+
 const httpReducer = (currHttpState, action) => {
+  console.log({ action }, currHttpState);
   switch (action.type) {
   case 'SEND' :
     return {
-      ...currHttpState,
       loading: true,
+      error: null,
       data: null,
       extra: null,
       identifier: action.identifier,
@@ -25,18 +34,14 @@ const httpReducer = (currHttpState, action) => {
       error: action.error.message,
     };
   case 'CLEAR' :
-    return {
-      ...currHttpState,
-      loading: false,
-      error: null,
-    };
+    return initialState;
   default:
     throw new Error('This action type is not recognised');
   }
 };
 
 const useHttp = () => {
-  const [httpState, dispatchHttp] = useReducer(httpReducer, { loading: false, error: null });
+  const [httpState, dispatchHttp] = useReducer(httpReducer, initialState);
 
   const sendRequest = useCallback(({
     url,
@@ -45,6 +50,7 @@ const useHttp = () => {
     reqExtra,
     identifier,
   }) => {
+    console.log({ url, reqExtra });
     dispatchHttp({ type: 'SEND', identifier });
 
     fetch(url,
@@ -59,7 +65,11 @@ const useHttp = () => {
       .then((response) => {
         dispatchHttp({
           type: 'RESPONSE',
-          responseData: response,
+
+          responseData: {
+            id: !!response?.name ? response.name : null,
+            ...response,
+          },
           extra: reqExtra,
         });
       })
@@ -72,10 +82,10 @@ const useHttp = () => {
   }, []);
 
   return {
+    sendRequest,
     isLoading: httpState.loading,
     data: httpState.data,
     error: httpState.error,
-    sendRequest,
     reqExtra: httpState.extra,
     reqIdentifier: httpState.identifier,
   };
