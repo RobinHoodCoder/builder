@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer } from 'react';
+import React, { useCallback, useEffect, useReducer } from 'react';
 
 import IngredientForm from './IngredientForm';
 import Search from './Search';
@@ -6,7 +6,10 @@ import IngredientList from './IngredientList';
 import { deleteItem } from '../../api/api';
 import './Ingredients.css';
 import ErrorModal from '../UI/ErrorModal';
-const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json';
+import useHttp from '../../hooks/useHttp';
+
+const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/ingredients';
+
 
 const ingredientsReducer = (currentIngredients = [], action) => {
   switch (action.type) {
@@ -24,39 +27,18 @@ const ingredientsReducer = (currentIngredients = [], action) => {
   }
 };
 
-const httpReducer = (currHttpState, action) => {
-  switch (action.type) {
-  case 'SEND' :
-    return {
-      ...currHttpState,
-      loading: true,
-    };
-  case 'RESPONSE' :
-    return {
-      ...currHttpState,
-      loading: false,
-    };
-  case 'ERROR' :
-    return {
-      ...currHttpState,
-      loading: false,
-      error: action.error.message,
-    };
-  case 'CLEAR' :
-    return {
-      ...currHttpState,
-      loading: false,
-      error: null,
-    };
-  default:
-    throw new Error('This action type is not recognised');
-  }
-};
-
 function Ingredients() {
-  const [httpState, dispatchHttp] = useReducer(httpReducer, { loading: false, error: null });
+  // const [httpState, dispatchHttp] = useReducer(httpReducer, { loading: false, error: null });
   const [ingredients, dispatch] = useReducer(ingredientsReducer, []);
 
+  const {
+    sendRequest,
+    data,
+    isLoading,
+    error,
+    reqExtra,
+    reqIdentifier,
+  } = useHttp();
   /*
    * const [error, setError] = useState(undefined);
    * const [loading, setLoading] = useState(undefined);
@@ -64,49 +46,22 @@ function Ingredients() {
 
   console.log('Rerender of Ingredients');
 
-
-  const addIngredientHandler = async (ingredient) => {
-    dispatchHttp({ type: 'SEND' });
-    try {
-      const response = await fetch(url,
-        {
-          method: 'POST',
-          body: JSON.stringify(ingredient),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        dispatchHttp({ type: 'RESPONSE' });
-        dispatch(
-          {
-            type: 'ADD',
-            ingredient: {
-              ...ingredient,
-              id: data.name,
-            },
-          }
-        );
-      }
-    } catch (error) {
-      console.error(error);
-      dispatchHttp({ type: 'ERROR', error });
-    }
+  const addIngredientHandler = (ingredient) => {
+    sendRequest({
+      url: `${url}.json`,
+      method: 'POST',
+      body: ingredient,
+      identifier: 'ADD_INGREDIENT',
+    });
   };
 
   const removeIngredientHandler = useCallback((ingredientID) => {
-    if (ingredientID) {
-      deleteItem(ingredientID)
-        .then(() => {
-          dispatch({
-            type: 'DELETE',
-            id: ingredientID,
-          });
-        });
-    }
+    sendRequest({
+      url: `${url}/${ingredientID}.json`,
+      method: 'DELETE',
+      reqExtra: '',
+      identifier: 'REMOVE_INGREDIENT',
+    });
   }, []);
 
   const filteredIngredientsHandler = useCallback((filteredIngredients) => {
@@ -116,21 +71,41 @@ function Ingredients() {
     });
   }, []);
 
-  const clearError = () => {
-    dispatchHttp({ type: 'CLEAR' });
-  };
+  useEffect(() => {
+    if (!isLoading && !error) {
+      if (reqIdentifier === 'REMOVE_INGREDIENT') {
+        dispatch({ type: 'DELETE', id: reqExtra });
+      } else if (reqIdentifier === 'ADD_INGREDIENT') {
+        console.log(data);
+        dispatch({
+          type: 'ADD',
+          ingredient: {
+            id: data.id,
+            ...data,
+            ...reqExtra,
+          },
+        });
+      }
+    }
+  }, [
+    data,
+    error,
+    isLoading,
+    reqExtra,
+    reqIdentifier,
+  ]);
 
   return (
     <div className="App">
-      {!!httpState.error?.message && (
+      {!!error && (
         <ErrorModal
-          onClose={clearError}
+          onClose={() => {}}
         >
-          {httpState.error.message}
+          {error}
         </ErrorModal>
       )}
       <IngredientForm
-        loading={httpState.loading}
+        loading={isLoading}
         onAddIngredient={addIngredientHandler}
       />
 
