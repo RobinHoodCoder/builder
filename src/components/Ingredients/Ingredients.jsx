@@ -12,7 +12,6 @@ const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebase
 
 
 const ingredientsReducer = (currentIngredients, action) => {
-  console.log(action, currentIngredients);
   switch (action.type) {
   case 'SET' :
     return action.ingredients;
@@ -49,13 +48,11 @@ function Ingredients() {
     // When we have response data we need to set it in the state
     if (!isLoading && !error) {
       if (reqIdentifier === 'REMOVE_INGREDIENT') {
-        console.log(data, { data }, 'DELETE');
         dispatch({
           type: 'DELETE',
           id: reqExtra,
         });
       } else if (reqIdentifier === 'ADD_INGREDIENT') {
-        console.log(data, { data }, 'Huu');
         dispatch({
           type: 'ADD',
           ingredient: {

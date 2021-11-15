@@ -10,7 +10,6 @@ const initialState = {
 };
 
 const httpReducer = (currHttpState, action) => {
-  console.log({ action }, currHttpState);
   switch (action.type) {
   case 'SEND' :
     return {
@@ -40,8 +39,12 @@ const httpReducer = (currHttpState, action) => {
   }
 };
 
-const useHttp = () => {
+const useHttp = (callback, deps) => {
   const [httpState, dispatchHttp] = useReducer(httpReducer, initialState);
+
+  const clear = useCallback(() => {
+    dispatchHttp({ type: 'CLEAR' });
+  }, []);
 
   const sendRequest = useCallback(({
     url,
@@ -50,7 +53,6 @@ const useHttp = () => {
     reqExtra,
     identifier,
   }) => {
-    console.log({ url, reqExtra });
     dispatchHttp({ type: 'SEND', identifier });
 
     fetch(url,
@@ -65,7 +67,6 @@ const useHttp = () => {
       .then((response) => {
         dispatchHttp({
           type: 'RESPONSE',
-
           responseData: {
             ...(response && {
               id: !!response?.name ? response.name : null,
@@ -85,6 +86,7 @@ const useHttp = () => {
 
   return {
     sendRequest,
+    clear,
     isLoading: httpState.loading,
     data: httpState.data,
     error: httpState.error,
