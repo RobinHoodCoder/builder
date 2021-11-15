@@ -94,7 +94,7 @@ const Search = memo((props) => {
           <label>Filter by Title</label>
           {!!isLoading ? <span>Loading...</span> : ''}
           <input
-            {...(isLoading) && { disabled: true }}
+            {...(!!isLoading) && { disabled: true }}
             ref={inputRef}
             type="text"
             value={enteredFilter}
