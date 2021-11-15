@@ -38,6 +38,7 @@ function Ingredients() {
     sendRequest,
     reqExtra,
     reqIdentifier,
+    clear,
   } = useHttp();
   /*
    * const [error, setError] = useState(undefined);
@@ -103,7 +104,7 @@ function Ingredients() {
     <div className="App">
       {!!error && (
         <ErrorModal
-          onClose={() => {}}
+          onClose={clear}
         >
           {error}
         </ErrorModal>
