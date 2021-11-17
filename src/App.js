@@ -4,6 +4,10 @@ import Ingredients from './components/Ingredients/Ingredients';
 import { AuthContext } from './context/auth-context';
 import Auth from './components/Auth';
 
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import Counter from './components/Counter/Counter';
+
 const App = (props) => {
   const authContext = useContext(AuthContext);
 
@@ -14,7 +18,10 @@ const App = (props) => {
   }
 
   return (
-    content
+    <Provider store={store}>
+      {content}
+      <Counter/>
+    </Provider>
   );
 };
 

@@ -2,6 +2,7 @@ import React from 'react';
 
 import './IngredientList.css';
 import Ingredient from './Ingredient';
+// import store from '../../redux/store';
 
 const IngredientList = React.memo((props) => {
   console.log('Rerender of Ingredient list', new Date().getSeconds());
@@ -13,12 +14,12 @@ const IngredientList = React.memo((props) => {
             key={index}
             {...props}
             {
-            ...ig
+              ...ig
             }/>
         ))}
       </ul>
     </section>
   );
 });
-
+IngredientList.displayName = 'Ingredient List';
 export default IngredientList;

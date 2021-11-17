@@ -44,5 +44,5 @@ const IngredientForm = React.memo((props) => {
     </section>
   );
 });
-
+IngredientForm.displayName = 'Ingredient Form';
 export default IngredientForm;
