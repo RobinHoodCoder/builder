@@ -6,8 +6,9 @@ import Card from '../UI/Card';
 import './Search.css';
 import useHttp from '../../hooks/useHttp';
 import ErrorModal from '../UI/ErrorModal';
+import { FIREBASE_URL } from '../../config/consts';
 
-const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json';
+const url = `${FIREBASE_URL}.json`;
 
 // eslint-disable-next-line react/display-name
 const Search = memo((props) => {

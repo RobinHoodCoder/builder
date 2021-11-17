@@ -4,15 +4,12 @@ import React, { useCallback, useEffect, useReducer } from 'react';
 import IngredientForm from './IngredientForm';
 import Search from './Search';
 import IngredientList from './IngredientList';
-import { deleteItem } from '../../api/api';
 import './Ingredients.css';
 import ErrorModal from '../UI/ErrorModal';
 import useHttp from '../../hooks/useHttp';
+import { FIREBASE_URL } from '../../config/consts';
 
-const { REACT_APP_FIREBASE_URL } = process.env;
-console.log(process.env);
-
-const url = REACT_APP_FIREBASE_URL;
+const url = FIREBASE_URL;
 
 
 const ingredientsReducer = (currentIngredients, action) => {

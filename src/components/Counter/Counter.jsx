@@ -20,9 +20,9 @@ const Counter = () => {
       </div>
       {!isHidden &&
        (<div className={styles.btnContainer}>
-         <button onClick={() => hDecrement()} className={styles.counter}>Decrement</button>
-         <button onClick={() => hIncrement(5)} className={styles.counter}>Increment by 5</button>
-         <button onClick={() => hIncrement()} className={styles.counter}>Increment</button>
+         <button onClick={() => hDecrement()} className={styles.countBtn}>Decrement</button>
+         <button onClick={() => hIncrement(5)} className={styles.countBtn}>Increment by 5</button>
+         <button onClick={() => hIncrement()} className={styles.countBtn}>Increment</button>
        </div>)
       }
       <div className={styles.btnContainer}>
