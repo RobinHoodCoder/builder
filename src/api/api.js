@@ -1,4 +1,5 @@
-const baseUrl = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/ingredients';
+const { FIREBASE_URL } = process.env;
+const baseUrl = FIREBASE_URL;
 
 export const deleteItem = (itemId) => {
   return fetch(`${baseUrl}/${itemId}.json`, {

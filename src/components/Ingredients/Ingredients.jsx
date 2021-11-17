@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useReducer } from 'react';
 
+
 import IngredientForm from './IngredientForm';
 import Search from './Search';
 import IngredientList from './IngredientList';
@@ -8,7 +9,10 @@ import './Ingredients.css';
 import ErrorModal from '../UI/ErrorModal';
 import useHttp from '../../hooks/useHttp';
 
-const url = 'https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/ingredients';
+const { REACT_APP_FIREBASE_URL } = process.env;
+console.log(process.env);
+
+const url = REACT_APP_FIREBASE_URL;
 
 
 const ingredientsReducer = (currentIngredients, action) => {
