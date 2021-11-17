@@ -3,17 +3,25 @@ import {  createStore } from '@reduxjs/toolkit';
 const counterReducer = (
   state = {
     counter: 0,
+    isHidden: true,
   },
   action
 ) => {
-  const { type } = action;
+  const { type, amount = 1 } = action;
   if (type === 'increment') {
     return {
-      counter: state.counter + 1,
+      ...state,
+      counter: state.counter + amount,
     };
   } else if (type === 'decrement') {
     return {
-      counter: state.counter - 1,
+      ...state,
+      counter: state.counter - amount,
+    };
+  } else if (type === 'toggleVisibility') {
+    return {
+      ...state,
+      isHidden: !state.isHidden,
     };
   }
   return state;

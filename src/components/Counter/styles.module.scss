@@ -1,21 +1,42 @@
+@keyframes example {
+  0% {
+	opacity: 0;
+  }
+  50% {
+	opacity: 1;
+  }
+  100% {
+	opacity: 1;
+  }
+}
+
+.counterToggle {
+  background: #09e59a;
+  border: 1px solid #1495ce;
+  color: #0b7855
+}
+
 .value {
-	color: #ffffff;
-	background: #3059ff;
+	color: #f52257;
+	background: #f3f3f3;
+	border: 1px solid #f52257;
 	text-align: center;
-	border-radius: 20px;
-	height: 50px;
+	border-radius: 5px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-bottom: 20px;
+	margin: 20px auto;
+	transition: all .2s ease-in-out;
+	font-size: 2rem;
+	padding: 20px;
+	animation-name: example;
+	-webkit-animation-duration: 2s;
 }
 .component {
 	margin: auto;
 	max-width: 480px;
 }
-.counter {
 
-}
 .btnContainer {
   display: flex;
   gap: 10px;
