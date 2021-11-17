@@ -9,7 +9,6 @@ import ErrorModal from '../UI/ErrorModal';
 import { FIREBASE_URL } from '../../config/consts';
 
 const url = `${FIREBASE_URL}.json`;
-
 // eslint-disable-next-line react/display-name
 const Search = memo((props) => {
   const { onLoadIngredients } = props;
