@@ -12,6 +12,7 @@ const Counter = () => {
     dispatch({ type: 'toggleVisibility' });
   };
 
+
   return (
     <main className={styles.component}>
       <h1>Redux counter</h1>
