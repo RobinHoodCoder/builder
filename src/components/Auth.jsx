@@ -16,6 +16,10 @@ const Auth = (props) => {
       <Card>
         <h2>You are not authenticated!</h2>
         <p>Please log in to continue.</p>
+        <form>
+          <input type="text" placeholder="Email"/>
+          <input type="text" placeholder="Password"/>
+        </form>
         <button onClick={loginHandler}>Log In</button>
       </Card>
     </div>

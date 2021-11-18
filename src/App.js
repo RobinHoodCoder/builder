@@ -7,6 +7,7 @@ import Auth from './components/Auth';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import Counter from './components/Counter/Counter';
+import Header from './components/Header/Header';
 
 const App = (props) => {
   const authContext = useContext(AuthContext);
@@ -19,6 +20,7 @@ const App = (props) => {
 
   return (
     <Provider store={store}>
+      <Header/>
       {content}
       <Counter/>
     </Provider>

@@ -1,0 +1,32 @@
+.header {
+	background: #ff2058;
+	width: 100%;
+	padding: 20px 0;
+}
+.wrapper {
+	margin : 0 auto;
+	max-width: 960px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	h1 {
+	margin-right: auto;
+	}
+}
+.navbar {
+	ul {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		list-style: none;
+		gap: 20px;
+		padding:0;
+	}
+	li {
+		font-weight: 600;
+	}
+}
+.button {
+	background: #ffffff;
+	color: #ff2058;
+}
