@@ -9,7 +9,6 @@ const counterSlice = createSlice({
   name: 'counter',
   initialState,
   reducers: {
-    // eslint-disable-next-line no-param-reassign
     increment(state, action) {
       !action.payload ? state.counter++ : state.counter += action.payload;
     },
