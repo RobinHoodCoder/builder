@@ -2,14 +2,18 @@ import React from 'react';
 import styles from './styles.module.scss';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { counterActions } from '../../redux/store';
+
 const Counter = () => {
   const dispatch = useDispatch();
   const counter = useSelector(state => state.counter);
   const isHidden = useSelector(state => state.isHidden);
-  const hIncrement = amount => dispatch({ type: 'increment', amount });
-  const hDecrement = amount => dispatch({ type: 'decrement', amount });
+
+  const hIncrement = amount => dispatch(counterActions.increment(amount));
+  const hDecrement = amount => dispatch(counterActions.decrement(amount));
+
   const toggleCounterHandler = () => {
-    dispatch({ type: 'toggleVisibility' });
+    dispatch(counterActions.toggleCounter(undefined));
   };
 
 
