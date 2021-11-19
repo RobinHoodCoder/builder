@@ -8,6 +8,8 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import Counter from './components/Counter/Counter';
 import Header from './components/Header/Header';
+import Cart from './components/Cart/Cart';
+import Products from './components/Shop/Products';
 
 const App = (props) => {
   const authContext = useContext(AuthContext);
@@ -21,6 +23,9 @@ const App = (props) => {
   return (
     <Provider store={store}>
       <Header/>
+      <Cart store={store}/>
+      <Products/>
+      <hr/>
       {content}
       <Counter/>
     </Provider>
