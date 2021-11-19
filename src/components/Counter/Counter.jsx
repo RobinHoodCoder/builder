@@ -6,7 +6,7 @@ import { counterActions } from '../../redux/store';
 
 const Counter = () => {
   const dispatch = useDispatch();
-  const { counter, isHidden } = useSelector(state => state.counter);
+  const { count, isHidden } = useSelector(state => state.counter);
 
   const hIncrement = amount => dispatch(counterActions.increment(amount));
   const hDecrement = amount => dispatch(counterActions.decrement(amount));
@@ -21,7 +21,7 @@ const Counter = () => {
     <main className={styles.component}>
       <h1>Redux counter</h1>
       <div className={styles.value}>
-        {counter}
+        {count}
       </div>
       {!isHidden &&
        (<div className={styles.btnContainer}>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const CartItem = (props) => {
   const { title, quantity, total, price } = props.item;
-  const { hIncrement, hDecrement } = props;
+  const { hAddProduct, hRemoveProduct } = props;
 
   return (
     <li className={classes.item}>
@@ -19,8 +19,8 @@ const CartItem = (props) => {
           x <span>{quantity}</span>
         </div>
         <div className={classes.actions}>
-          <button onClick={hIncrement}>-</button>
-          <button onClick={hDecrement}>+</button>
+          <button onClick={() => hRemoveProduct(props.item)}>-</button>
+          <button onClick={() => hAddProduct(props.item)}>+</button>
         </div>
       </div>
     </li>
@@ -33,4 +33,5 @@ CartItem.propTypes = {
   item: PropTypes.object,
   hIncrement: PropTypes.func,
   hDecrement: PropTypes.func,
+  hAddProduct: PropTypes.func,
 };

@@ -23,7 +23,7 @@ const App = (props) => {
   return (
     <Provider store={store}>
       <Header/>
-      <Cart store={store}/>
+      <Cart/>
       <Products/>
       <hr/>
       {content}

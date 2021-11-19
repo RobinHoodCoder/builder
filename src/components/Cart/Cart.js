@@ -1,25 +1,42 @@
 import Card from '../UI/Card';
 import classes from './Cart.module.css';
 import CartItem from './CartItem';
-import store, { counterActions } from '../../redux/store';
-import { useDispatch } from 'react-redux';
+import store, { cartActions, cartSliceActions, counterActions } from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Cart = (props) => {
   const dispatch = useDispatch();
 
+  const { products } = useSelector(state => state.cart);
 
-  const hIncrement = amount => dispatch(counterActions.increment(amount));
-  const hDecrement = amount => dispatch(counterActions.decrement(amount));
+  console.log(products, 'cart');
+
+  const hIncrement = amount => dispatch(counterActions.increment(1));
+  const hAddProduct = (payload) => {
+    console.log('Added', payload);
+    return dispatch(cartActions.addProduct(payload));
+  };
+
+  const hRemoveProduct = (payload) => {
+    console.log('Removed', payload);
+    return dispatch(cartActions.removeProduct(payload));
+  };
+  // const hDecrement = amount => dispatch(counterActions.decrement(1));
 
   return (
     <Card className={classes.cart}>
       <h2>Your Shopping Cart</h2>
       <ul>
-        <CartItem
-          {...hIncrement}
-          {...hDecrement}
-          item={{ title: 'Test Item', quantity: 3, total: 18, price: 6 }}
-        />
+        {products.map((product) => {
+          return (
+            <CartItem
+              key={product.id}
+              hAddProduct={hAddProduct}
+              hRemoveProduct={hRemoveProduct}
+              item={product}
+            />
+          );
+        })}
       </ul>
     </Card>
   );
