@@ -13,6 +13,14 @@ const Products = (props) => {
       price: 3,
       quantity: 1,
     },
+    {
+      id: '9928cs',
+      title: 'Papegaai',
+      description: 'KraaaA!',
+      total: 3,
+      price: 3,
+      quantity: 1,
+    },
   ];
 
   const dispatch = useDispatch();
