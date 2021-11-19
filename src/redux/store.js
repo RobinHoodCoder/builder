@@ -53,7 +53,10 @@ const cartSlice = createSlice({
       const potIdx = state.products.findIndex(product => product?.id === action.payload.id);
 
       if (potIdx >= 0) {
-        if (state.products[potIdx].quantity >= 1) {
+        if (state.products[potIdx].quantity === 1) {
+          // remove product if  only 1
+          state.products = state.products.filter(currentItem => currentItem.id !== action.payload.id);
+        } else {
           let { quantity, price, total } = state.products[potIdx];
           quantity--;
           total = price * quantity;
@@ -62,10 +65,6 @@ const cartSlice = createSlice({
             quantity,
             total,
           };
-        }
-        if (state.products[potIdx].quantity === 1) {
-          // remove product if  only 1
-          state.products = state.products.filter(currentItem => currentItem.id !== action.payload.id);
         }
       }
     },

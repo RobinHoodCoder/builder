@@ -11,7 +11,7 @@ const Header = () => {
             <li>Sales</li>
             <li>
               <button className={styling.button}>
-              Logout
+              Cart
               </button>
             </li>
           </ul>

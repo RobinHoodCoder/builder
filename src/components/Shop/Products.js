@@ -25,7 +25,6 @@ const Products = (props) => {
 
   const dispatch = useDispatch();
   const hAddProduct = (payload) => {
-    console.log('Added', payload);
     return dispatch(cartActions.addProduct(payload));
   };
   return (

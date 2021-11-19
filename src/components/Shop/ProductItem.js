@@ -1,5 +1,6 @@
 import Card from '../UI/Card';
 import classes from './ProductItem.module.css';
+import PropTypes from 'prop-types';
 
 const ProductItem = (props) => {
   const { product } = props;
@@ -22,3 +23,8 @@ const ProductItem = (props) => {
 };
 
 export default ProductItem;
+
+ProductItem.propTypes = {
+  hAddProduct: PropTypes.func,
+  product: PropTypes.object,
+};
