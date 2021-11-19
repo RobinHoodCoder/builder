@@ -22,6 +22,7 @@ const Cart = (props) => {
     return dispatch(cartActions.removeProduct(payload));
   };
   // const hDecrement = amount => dispatch(counterActions.decrement(1));
+  const { showCart } = useSelector(state => state.UI);
 
   return (
     <Card className={classes.cart}>

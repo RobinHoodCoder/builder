@@ -1,12 +1,17 @@
 import styling from './Header.module.scss';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getTotalQuantity } from '../../utils/utils';
 import { UIActions } from '../../redux/store';
 
 const Header = () => {
   const { products } = useSelector(state => state.cart);
-  const { toggleCart } = useSelector(state => state.UI);
   const amount = getTotalQuantity(products);
+
+  const dispatch = useDispatch();
+
+  const hCartVisibility = () => {
+    dispatch(UIActions.toggleCart(null));
+  };
 
   return (
     <div className={styling.header}>
@@ -17,7 +22,7 @@ const Header = () => {
             <li>Products</li>
             <li>Sales</li>
             <li>
-              <button className={styling.button}>
+              <button onClick={hCartVisibility} className={styling.button}>
               Cart {!!amount && amount}
               </button>
             </li>

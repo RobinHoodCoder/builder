@@ -4,31 +4,32 @@ import Ingredients from './components/Ingredients/Ingredients';
 import { AuthContext } from './context/auth-context';
 import Auth from './components/Auth';
 
-import { Provider } from 'react-redux';
-import store from './redux/store';
 import Counter from './components/Counter/Counter';
 import Header from './components/Header/Header';
 import Cart from './components/Cart/Cart';
 import Products from './components/Shop/Products';
+import { useSelector } from 'react-redux';
 
 const App = (props) => {
   const authContext = useContext(AuthContext);
 
   let content  = <Auth/>;
 
+  const { showCart } = useSelector(state => state.UI);
+
   if (authContext.isAuth) {
     content = <Ingredients/>;
   }
 
   return (
-    <Provider store={store}>
+    <>
       <Header/>
-      <Cart/>
+      {showCart && <Cart/>}
       <Products/>
       <hr/>
       {content}
       <Counter/>
-    </Provider>
+    </>
   );
 };
 
