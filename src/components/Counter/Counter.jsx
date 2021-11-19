@@ -6,14 +6,14 @@ import { counterActions } from '../../redux/store';
 
 const Counter = () => {
   const dispatch = useDispatch();
-  const counter = useSelector(state => state.counter);
-  const isHidden = useSelector(state => state.isHidden);
+  const { counter, isHidden } = useSelector(state => state.counter);
 
   const hIncrement = amount => dispatch(counterActions.increment(amount));
   const hDecrement = amount => dispatch(counterActions.decrement(amount));
 
+
   const toggleCounterHandler = () => {
-    dispatch(counterActions.toggleCounter(undefined));
+    dispatch(counterActions.toggleCounter(false));
   };
 
 
