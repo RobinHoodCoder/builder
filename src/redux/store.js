@@ -9,22 +9,7 @@ const initialAuthState = {
 };
 
 const initialCartState = {
-  products: [
-    {
-      id: '0001',
-      title: 'iPhone 99',
-      quantity: 1,
-      price: 2,
-      total: 2,
-    },
-    {
-      id: '0002',
-      title: 'Oneplus 20',
-      quantity: 2,
-      price: 4,
-      total: 8,
-    },
-  ],
+  products: [],
 };
 
 const cartSlice = createSlice({
@@ -70,6 +55,18 @@ const cartSlice = createSlice({
     },
   },
 });
+const UISlice = createSlice({
+  name: 'ui',
+  initialState: {
+    showCart: false,
+  },
+  reducers: {
+    toggleCart(state) {
+      state.showCart = !state.showCart;
+    },
+  },
+});
+
 
 const counterSlice = createSlice({
   name: 'counter',
@@ -102,6 +99,7 @@ const authSlice = createSlice({
 });
 export const { actions: counterActions } = counterSlice;
 export const { actions: authActions } = authSlice;
+export const { actions: UIActions } = UISlice;
 export const { actions: cartActions } = cartSlice;
 
 const store = configureStore({
@@ -109,6 +107,7 @@ const store = configureStore({
     counter: counterSlice.reducer,
     cart: cartSlice.reducer,
     auth: authSlice.reducer,
+    UI: UISlice.reducer,
   },
 });
 
