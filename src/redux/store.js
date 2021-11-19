@@ -17,6 +17,13 @@ const initialCartState = {
       price: 2,
       total: 2,
     },
+    {
+      id: '0002',
+      title: 'Oneplus 20',
+      quantity: 2,
+      price: 4,
+      total: 8,
+    },
   ],
 };
 
@@ -46,7 +53,7 @@ const cartSlice = createSlice({
       const potIdx = state.products.findIndex(product => product?.id === action.payload.id);
 
       if (potIdx >= 0) {
-        if (state.products[potIdx].quantity > 1) {
+        if (state.products[potIdx].quantity >= 1) {
           let { quantity, price, total } = state.products[potIdx];
           quantity--;
           total = price * quantity;
