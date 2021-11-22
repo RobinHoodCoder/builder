@@ -1,10 +1,11 @@
 import ProductItem from './ProductItem';
 import classes from './Products.module.css';
-import { cartActions } from '../../redux/store';
+import { cartActions, uiActions } from '../../redux/';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 const Products = (props) => {
+  const dispatch = useDispatch();
   const products = [
     {
       id: '00092x',
@@ -24,7 +25,6 @@ const Products = (props) => {
     },
   ];
 
-  const dispatch = useDispatch();
   const hAddProduct = (payload) => {
     return dispatch(cartActions.addProduct(payload));
   };
@@ -33,6 +33,13 @@ const Products = (props) => {
 
   useEffect(() => {
     const sendCartData = async () => {
+      dispatch(
+        uiActions.showNotification({
+          status: 'pending',
+          title: 'Sending...',
+          message: 'Sending cart data...',
+        })
+      );
       const response = await fetch('https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/cart.json',
         {
           method: 'PUT',
@@ -40,6 +47,14 @@ const Products = (props) => {
 
         });
       const data = await response.json();
+
+      dispatch(
+        uiActions.showNotification({
+          status: 'pending',
+          title: 'Sending...',
+          message: 'Sending cart data...',
+        })
+      );
 
       const { ok } = await response;
 

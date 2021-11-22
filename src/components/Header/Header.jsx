@@ -1,7 +1,7 @@
 import styling from './Header.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTotalQuantity } from '../../utils/utils';
-import { UIActions } from '../../redux/store';
+import { uiActions } from '../../redux/';
 
 const Header = () => {
   const { products } = useSelector(state => state.cart);
@@ -10,7 +10,7 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const hCartVisibility = () => {
-    dispatch(UIActions.toggleCart(null));
+    dispatch(uiActions.toggleCart(null));
   };
 
   return (

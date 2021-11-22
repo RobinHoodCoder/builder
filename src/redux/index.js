@@ -1,6 +1,6 @@
 import {  createStore, createSlice, configureStore, current } from '@reduxjs/toolkit';
-import { cartSlice } from './cart-slice';
-import { UISlice } from './ui-slice';
+import cartSlice  from './cart-slice';
+import uiSlice  from './ui-slice';
 
 const initialCounterState = {
   count: 0,
@@ -42,17 +42,18 @@ const authSlice = createSlice({
 });
 export const { actions: counterActions } = counterSlice;
 export const { actions: authActions } = authSlice;
-export const { actions: UIActions } = UISlice;
+export const { actions: uiActions } = uiSlice;
 export const { actions: cartActions } = cartSlice;
 
-const store = configureStore({
+console.log(uiSlice);
+
+const index = configureStore({
   reducer: {
     counter: counterSlice.reducer,
     cart: cartSlice.reducer,
     auth: authSlice.reducer,
-    [UISlice.name]: UISlice.reducer,
+    [uiSlice.name]: uiSlice.reducer,
   },
 });
 
-
-export default store;
+export default index;
