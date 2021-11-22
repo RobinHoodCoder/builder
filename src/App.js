@@ -8,6 +8,7 @@ import Counter from './components/Counter/Counter';
 import Header from './components/Header/Header';
 import Cart from './components/Cart/Cart';
 import Products from './components/Shop/Products';
+
 import { useSelector } from 'react-redux';
 
 const App = (props) => {

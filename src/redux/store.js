@@ -1,5 +1,6 @@
 import {  createStore, createSlice, configureStore, current } from '@reduxjs/toolkit';
 import { cartSlice } from './cart-slice';
+import { UISlice } from './ui-slice';
 
 const initialCounterState = {
   count: 0,
@@ -8,19 +9,6 @@ const initialCounterState = {
 const initialAuthState = {
   isAuthenticated: false,
 };
-
-
-const UISlice = createSlice({
-  name: 'UI',
-  initialState: {
-    showCart: false,
-  },
-  reducers: {
-    toggleCart(state) {
-      state.showCart = !state.showCart;
-    },
-  },
-});
 
 
 const counterSlice = createSlice({
