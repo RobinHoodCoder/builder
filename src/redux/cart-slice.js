@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { uiActions } from './index';
+import { FIREBASE_URL } from '../config/consts';
 
 const initialCartState = {
   products: [],
