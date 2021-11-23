@@ -26,7 +26,8 @@ const Cart = (props) => {
     <Card className={classes.cart}>
       <h2>Your Shopping Cart</h2>
       <ul>
-        {products.map((product) => {
+        {products?.length && products.map((product) => {
+          console.log(product);
           return (
             <CartItem
               key={product.id}

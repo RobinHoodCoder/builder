@@ -2,6 +2,7 @@ import { uiActions } from '../index';
 import { FIREBASE_URL } from '../../config/consts';
 
 import { cartActions } from '../index';
+import { initialCartState } from './initialCartState';
 
 export const fetchCartData = () => {
   return async (dispatch) => {
@@ -12,13 +13,11 @@ export const fetchCartData = () => {
       if (!response.ok) {
         throw new Error('could not fetch');
       }
-
-      const data = await response.json();
-      return data;
     };
     try {
       const cartData = await fetchData();
-      dispatch(cartActions.replaceCart(cartData));
+      console.log(cartData, 'cdata');
+      dispatch(cartActions.replaceCart(cartData?.products ? cartData?.products : initialCartState));
     } catch (err) {
       dispatch(uiActions.showNotification({
         status: 'error',
@@ -39,7 +38,7 @@ export const sendCartData = (cart) => {
     const sendRequest = async () => {
       const response = await fetch(`${FIREBASE_URL}/cart.json`, {
         method: 'PUT',
-        body: JSON.stringify(cart),
+        body: JSON.stringify(cart.products),
       });
       if (!response.ok) {
         throw new Error('Could not send cart data');

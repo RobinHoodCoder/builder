@@ -1,16 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
-const initialCartState = {
-  products: [],
-  changed: false,
-};
+import { createSlice, current } from '@reduxjs/toolkit';
+import { initialCartState } from './initialCartState';
+
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState: initialCartState,
   reducers: {
     addProduct(state, action) {
+      console.log({ ...current(state) });
       const { payload } = action;
-      const existingItem = state.products.find(item => item.id === action.payload.id);
+      const existingItem = state.products?.find(item => item.id === action.payload.id);
       if (!existingItem) {
         state.products.push({
           ...payload,
