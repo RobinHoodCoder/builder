@@ -26,17 +26,20 @@ const Cart = (props) => {
     <Card className={classes.cart}>
       <h2>Your Shopping Cart</h2>
       <ul>
-        {products?.length && products.map((product) => {
-          console.log(product);
-          return (
-            <CartItem
-              key={product.id}
-              hAddProduct={hAddProduct}
-              hRemoveProduct={hRemoveProduct}
-              item={product}
-            />
-          );
-        })}
+        {!!products?.length ? (
+          products.map((product) => {
+            return (
+              <CartItem
+                key={product.id}
+                hAddProduct={hAddProduct}
+                hRemoveProduct={hRemoveProduct}
+                item={product}
+              />
+            );
+          })
+        ) : (
+          <p>Your cart is empty now. Add some products!</p>
+        )}
       </ul>
     </Card>
   );
