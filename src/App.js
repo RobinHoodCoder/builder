@@ -9,14 +9,20 @@ import Header from './components/Header/Header';
 import Cart from './components/Cart/Cart';
 import Products from './components/Shop/Products';
 
+import { Suspense } from 'react';
+
 import { useSelector } from 'react-redux';
+import Notification from './components/UI/Notification/Notification';
+
 
 const App = (props) => {
   const authContext = useContext(AuthContext);
 
+
   let content  = <Auth/>;
 
-  const { showCart } = useSelector(state => state.UI);
+  const { showCart } = useSelector(state => state.ui);
+  const { notification } = useSelector(state => state.ui);
 
   if (authContext.isAuth) {
     content = <Ingredients/>;
@@ -24,6 +30,12 @@ const App = (props) => {
 
   return (
     <>
+      {
+        notification && (
+          <Notification {...notification}/>
+        )
+      }
+
       <Header/>
       {showCart && <Cart/>}
       <Products/>

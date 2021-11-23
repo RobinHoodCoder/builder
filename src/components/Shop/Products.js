@@ -4,6 +4,8 @@ import { cartActions, uiActions } from '../../redux/';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
+let isInitial = true;
+
 const Products = (props) => {
   const dispatch = useDispatch();
   const products = [
@@ -48,27 +50,39 @@ const Products = (props) => {
         });
       const data = await response.json();
 
-      dispatch(
-        uiActions.showNotification({
-          status: 'pending',
-          title: 'Sending...',
-          message: 'Sending cart data...',
-        })
-      );
-
       const { ok } = await response;
 
       if (!ok) {
-        throw new Error('Sending cart data failed.');
+        throw new Error('Error, could not add product');
       }
-
-      console.log({ data });
+      dispatch(
+        uiActions.showNotification({
+          status: 'success',
+          title: 'Success!!',
+          message: 'Cart successfully updated',
+        })
+      );
     };
-    sendCartData().catch((e) => {
+    if (!!isInitial) {
+      isInitial = false;
+      return;
+    }
+    if (!isInitial) {
+      sendCartData()
+        .catch((e) => {
+          dispatch(
+            uiActions.showNotification({
+              status: 'error',
+              title: 'Error!!',
+              message: !!e?.message ? e.message : 'Error, could not add product to cart',
+            })
+          );
+        })
+        .finally(() => {
 
-
-    });
-  }, [cart]);
+        });
+    }
+  }, [cart, dispatch]);
 
   return (
     <section className={classes.products}>
