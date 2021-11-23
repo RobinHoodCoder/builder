@@ -9,8 +9,6 @@ import ErrorModal from '../UI/ErrorModal';
 import useHttp from '../../hooks/useHttp';
 import { FIREBASE_URL } from '../../config/consts';
 
-const url = FIREBASE_URL;
-
 
 const ingredientsReducer = (currentIngredients, action) => {
   switch (action.type) {
@@ -86,7 +84,7 @@ function Ingredients() {
 
   const removeIngredientHandler = useCallback((ingredientID) => {
     sendRequest({
-      url: `${url}/${ingredientID}.json`,
+      url: `${FIREBASE_URL}/ingredients/${ingredientID}.json`,
       method: 'DELETE',
       body: null,
       reqExtra: ingredientID,
