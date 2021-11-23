@@ -1,0 +1,44 @@
+@keyframes notify-appear {
+  0% {
+	  opacity: 0;
+	  transform: translate3d(0,100%,0);
+  }
+  10% {
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
+  }
+  80% {
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
+  }
+  100% {
+	opacity: 0;
+	transform: translate3d(0, 100%, 0);
+  }
+}
+
+.notification {
+	opacity: 0;
+	width: 100%;
+	max-width: 960px;
+  	position: fixed;
+  	bottom: 0;
+  	text-align: center;
+  	transform: translate3d(0, 100%, 0);
+  	//transition: all .3s ease-in-out;
+  	animation: notify-appear 3s ease-in-out forwards;
+}
+.success {
+  background: #09e59a;
+  // animation: notify-appear 1s ease-in-out .2s forwards;
+}
+
+.pending {
+  background: #2962b8;
+  // animation: notify-appear 2s ease-in-out .2s forwards;
+}
+
+.error {
+  background: #ce8518;
+ // animation: notify-appear 2s ease-in-out .2s forwards;
+}
