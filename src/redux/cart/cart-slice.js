@@ -1,9 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { uiActions } from './index';
-import { FIREBASE_URL } from '../config/consts';
-
 const initialCartState = {
   products: [],
+  changed: false,
 };
 
 const cartSlice = createSlice({
@@ -20,7 +18,11 @@ const cartSlice = createSlice({
       } else {
         existingItem.quantity++;
         existingItem.total = existingItem.total + payload.price;
+        state.changed = true;
       }
+    },
+    replaceCart(state, action) {
+      state.products = action.payload.products;
     },
     removeProduct(state, action) {
       const potIdx = state.products.findIndex(product => product?.id === action.payload.id);

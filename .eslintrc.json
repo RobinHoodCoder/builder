@@ -18,7 +18,7 @@
     "plugin:react/recommended"
   ],
   "rules": {
-    "multiline-comment-style": 1,
+    "multiline-comment-style": 0,
     "react/prop-types": 1,
     "react/react-in-jsx-scope": 1,
     "react/jsx-no-target-blank": 1,

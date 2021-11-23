@@ -1,5 +1,5 @@
 import {  createStore, createSlice, configureStore, current } from '@reduxjs/toolkit';
-import cartSlice  from './cart-slice';
+import cartSlice  from './cart/cart-slice';
 import uiSlice  from './ui-slice';
 
 const initialCounterState = {
@@ -43,9 +43,7 @@ const authSlice = createSlice({
 export const { actions: counterActions } = counterSlice;
 export const { actions: authActions } = authSlice;
 export const { actions: uiActions } = uiSlice;
-export const { actions: cartActions } = cartSlice;
-
-console.log(uiSlice);
+export const {  actions: cartActions } = cartSlice;
 
 const index = configureStore({
   reducer: {

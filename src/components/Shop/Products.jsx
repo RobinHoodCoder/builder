@@ -1,8 +1,9 @@
 import ProductItem from './ProductItem';
 import classes from './Products.module.css';
-import { cartActions, uiActions } from '../../redux/';
+import { cartActions } from '../../redux/';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { fetchCartData, sendCartData } from '../../redux/cart/cart-actions';
 
 let isInitial = true;
 
@@ -34,54 +35,47 @@ const Products = (props) => {
   const { cart } = useSelector(state => state);
 
   useEffect(() => {
-    const sendCartData = async () => {
-      dispatch(
-        uiActions.showNotification({
-          status: 'pending',
-          title: 'Sending...',
-          message: 'Sending cart data...',
-        })
-      );
-      const response = await fetch('https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/cart.json',
-        {
-          method: 'PUT',
-          body: JSON.stringify(cart),
+    dispatch(fetchCartData());
+  }, [dispatch]);
 
-        });
-      const data = await response.json();
-
-      const { ok } = await response;
-
-      if (!ok) {
-        throw new Error('Error, could not add product');
-      }
-      dispatch(
-        uiActions.showNotification({
-          status: 'success',
-          title: 'Success!!',
-          message: 'Cart successfully updated',
-        })
-      );
-    };
+  useEffect(() => {
     if (!!isInitial) {
       isInitial = false;
       return;
     }
-    if (!isInitial) {
-      sendCartData()
-        .catch((e) => {
-          dispatch(
-            uiActions.showNotification({
-              status: 'error',
-              title: 'Error!!',
-              message: !!e?.message ? e.message : 'Error, could not add product to cart',
-            })
-          );
-        })
-        .finally(() => {
 
-        });
+    if (!!cart.changed) {
+      dispatch(sendCartData(cart));
     }
+    // const sendCartData = async () => {
+    //   dispatch(
+    //     uiActions.showNotification({
+    //       status: 'pending',
+    //       title: 'Sending...',
+    //       message: 'Sending cart data...',
+    //     })
+    //   );
+    //   const response = await fetch('https://react-hooks-update-76090-default-rtdb.europe-west1.firebasedatabase.app/cart.json',
+    //     {
+    //       method: 'PUT',
+    //       body: JSON.stringify(cart),
+    //
+    //     });
+    //   const data = await response.json();
+    //
+    //   const { ok } = await response;
+    //
+    //   if (!ok) {
+    //     throw new Error('Error, could not add product');
+    //   }
+    //   dispatch(
+    //     uiActions.showNotification({
+    //       status: 'success',
+    //       title: 'Success!!',
+    //       message: 'Cart successfully updated',
+    //     })
+    //   );
+    // };
   }, [cart, dispatch]);
 
   return (
