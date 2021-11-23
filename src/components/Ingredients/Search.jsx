@@ -53,12 +53,11 @@ const Search = memo((props) => {
           .catch((err) => {
             return console.error(err);
           });
-
-        return () => {
-          clearTimeout(timer);
-        };
       }
     }, 500);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [enteredFilter, sendRequest, onLoadIngredients, inputRef]);
 
   useEffect(() => {
