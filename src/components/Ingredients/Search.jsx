@@ -8,7 +8,7 @@ import useHttp from '../../hooks/useHttp';
 import ErrorModal from '../UI/ErrorModal';
 import { FIREBASE_URL } from '../../config/consts';
 
-const url = `${FIREBASE_URL}.json`;
+const url = `${FIREBASE_URL}/ingredients.json`;
 // eslint-disable-next-line react/display-name
 const Search = memo((props) => {
   const { onLoadIngredients } = props;

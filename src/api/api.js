@@ -2,7 +2,7 @@ const { FIREBASE_URL } = process.env;
 const baseUrl = FIREBASE_URL;
 
 export const deleteItem = (itemId) => {
-  return fetch(`${baseUrl}/${itemId}.json`, {
+  return fetch(`${baseUrl}/ingredients/${itemId}.json`, {
     method: 'DELETE',
     Allow: '*',
     'Access-Control-Allow-Origin': '*',
