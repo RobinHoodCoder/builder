@@ -7,7 +7,6 @@ const cartSlice = createSlice({
   initialState: initialCartState,
   reducers: {
     addProduct(state, action) {
-      console.log({ ...current(state) });
       const { payload } = action;
       const existingItem = state.products?.find(item => item.id === action.payload.id);
       if (!existingItem) {
@@ -25,6 +24,7 @@ const cartSlice = createSlice({
     },
     removeProduct(state, action) {
       const potIdx = state.products.findIndex(product => product?.id === action.payload.id);
+      state.changed = true;
 
       if (potIdx >= 0) {
         if (state.products[potIdx].quantity === 1) {

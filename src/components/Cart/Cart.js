@@ -9,9 +9,6 @@ const Cart = (props) => {
 
   const { products } = useSelector(state => state.cart);
 
-  console.log(products, 'cart');
-
-  const hIncrement = amount => dispatch(counterActions.increment(1));
   const hAddProduct = (payload) => {
     console.log('Added', payload);
     return dispatch(cartActions.addProduct(payload));

@@ -13,11 +13,11 @@ export const fetchCartData = () => {
       if (!response.ok) {
         throw new Error('could not fetch');
       }
+      return response.json();
     };
     try {
       const cartData = await fetchData();
-      console.log(cartData, 'cdata');
-      dispatch(cartActions.replaceCart(cartData?.products ? cartData?.products : initialCartState));
+      dispatch(cartActions.replaceCart(cartData?.length ? { products: cartData } : initialCartState));
     } catch (err) {
       dispatch(uiActions.showNotification({
         status: 'error',
