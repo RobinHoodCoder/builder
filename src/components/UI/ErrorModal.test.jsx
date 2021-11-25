@@ -10,7 +10,7 @@ describe('Component', () => {
     const text = screen.queryByText('About', {});
 
 
-    const button = screen.getByRole('button', { name: /disabled button/i });
+    const button = screen.getByRole('button', {});
     userEvent.click(button);
   });
 });

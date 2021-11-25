@@ -1,20 +1,27 @@
 import store, { cartActions } from '../index';
 
 describe('Adds a new book', () => {
-  it('', () => {
-    let state = store.getState().cart;
-    const initialProductCount = state.products.length;
+  const products = [
+    { id: '4', title: 'Tester', description: 'Testers manual' },
+    { id: '5', title: 'Berendt', description: 'Testers manual' },
+  ];
 
-    store.dispatch(cartActions.addProduct({ id: '4', title: 'Tester', description: 'Testers manual' }));
+  products.forEach((product) => {
+    it(`Adds a product called ${product.title}`, () => {
+      let state = store.getState().cart;
+      const initialProductCount = state.products.length;
 
-    state = store.getState().cart;
+      store.dispatch(cartActions.addProduct({ id: '4', title: 'Tester', description: 'Testers manual' }));
 
-    expect(state.products)
-      .toHaveLength(1);
+      state = store.getState().cart;
 
-    const addedProduct = state.products.find(prdct => prdct.id === '4');
+      expect(state.products)
+        .toHaveLength(1);
 
-    expect(addedProduct?.title)
-      .toBe('Tester');
+      const addedProduct = state.products.find(prdct => prdct.id === '4');
+
+      expect(addedProduct?.title)
+        .toBe('Tester');
+    });
   });
 });

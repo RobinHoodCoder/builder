@@ -9,8 +9,6 @@ import Header from './components/Header/Header';
 import Cart from './components/Cart/Cart';
 import Products from './components/Shop/Products';
 
-import { Suspense } from 'react';
-
 import { useSelector } from 'react-redux';
 import Notification from './components/UI/Notification/Notification';
 
