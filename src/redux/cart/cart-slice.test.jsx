@@ -1,27 +1,80 @@
 import store, { cartActions } from '../index';
+import { initialCartState } from './initialCartState';
 
-describe('Adds a new book', () => {
-  const products = [
-    { id: '4', title: 'Tester', description: 'Testers manual' },
-    { id: '5', title: 'Berendt', description: 'Testers manual' },
-  ];
+const products = [
+  {
+    description: 'Nice to have',
+    id: '0001',
+    price: 2,
+    quantity: 7,
+    title: 'Buetooth headphone',
+    total: 21,
+  },
+  {
+    description: 'Nice to have',
+    id: '0001',
+    price: 2,
+    quantity: 7,
+    title: 'Buetooth headphone',
+    total: 21,
+  },
+  {
+    description: 'Nice to have',
+    id: '000933x',
+    price: 3,
+    quantity: 7,
+    title: 'iMac',
+    total: 21,
+  },
+];
 
-  products.forEach((product) => {
-    it(`Adds a product called ${product.title}`, () => {
-      let state = store.getState().cart;
-      const initialProductCount = state.products.length;
+describe('Adds various products', () => {
+  products.forEach((product, i) => {
+    it(`Adds a single product called ${product.title}`, () => {
+      store.dispatch(cartActions.addProduct(product));
 
-      store.dispatch(cartActions.addProduct({ id: '4', title: 'Tester', description: 'Testers manual' }));
+      const state = store.getState().cart;
 
-      state = store.getState().cart;
+      const addedProduct = state.products.find(prdct => prdct.id === product.id);
 
-      expect(state.products)
-        .toHaveLength(1);
+      const { title, price, quantity, total } = addedProduct;
 
-      const addedProduct = state.products.find(prdct => prdct.id === '4');
+      [title, price, quantity, total].forEach((productProperty) => {
+        expect(addedProduct[productProperty])
+          .toBe(product[productProperty]);
+      });
+    });
+  });
 
-      expect(addedProduct?.title)
-        .toBe('Tester');
+
+  it.only(`Adds 2 products`, () => {
+    const [product1, product2] = products;
+    const dualProduct = [product1, product2];
+
+    let state = store.getState().cart;
+
+    dualProduct.forEach((product, i) => {
+      console.log({ product });
+      store.dispatch(cartActions.addProduct(product));
+    });
+    state = store.getState().cart;
+
+
+    const addedProduct2 = state.products.find(prdct => prdct.id === product2.id);
+
+    console.log(state);
+
+    const { title, price, quantity, total, id } = product2;
+
+    [
+      title,
+      price,
+      quantity,
+      total,
+      id,
+    ].forEach((productProperty) => {
+      expect(addedProduct2[productProperty])
+        .toBe(product2[productProperty]);
     });
   });
 });
